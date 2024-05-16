@@ -1,6 +1,7 @@
 package com.mycompany.mascotasjdbc.persistence;
 
 import com.mycompany.mascotasjdbc.excepctions.MascotaException;
+import com.mycompany.mascotasjdbc.model.Mascota;
 import com.mycompany.mascotasjdbc.model.Propietario;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -16,6 +18,30 @@ import java.util.ArrayList;
  */
 public class MascotasDAO {
 
+    public Mascota getMascotaByNombreFull(String nombre) throws SQLException, MascotaException {
+        Connection c = conectar();
+        Mascota m = new Mascota();
+        String query = "select perro.nombre as apodo, fecha_nacimiento, propietario.nombre as prop, poblacion from "
+                + "perro join propietario on propietario = propietario.nombre where apodo='" + nombre +"'";
+        Statement st = c.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        if (rs.next()) {
+            String nombreMascota = rs.getString("apodo");
+            Date nacimiento = new Date(rs.getDate("fecha_nacimiento").getTime());
+            String nombrePropietario = rs.getString("prop");
+            String poblacion = rs.getString("poblacion");
+            m.setNombre(nombreMascota);
+            m.setNacimiento(nacimiento);
+            m.setPropietario(new Propietario(nombrePropietario, poblacion));
+        } else {
+            throw new MascotaException("No existe una mascota con ese nombre");
+        }
+        rs.close();
+        st.close();
+        desconectar(c);
+        return m;
+    }
+    
     public ArrayList<Propietario> allPropietarios() throws SQLException {
         Connection c = conectar();
         ArrayList<Propietario> propietarios = new ArrayList<>();

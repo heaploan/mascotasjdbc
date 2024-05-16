@@ -12,11 +12,29 @@ public class Mascota {
     private Date nacimiento;
     private Propietario propietario;
 
+    public Mascota() {
+    }
+    
+    
+
     public Mascota(String nombre, Date nacimiento, Propietario propietario) {
         this.nombre = nombre;
         this.nacimiento = nacimiento;
         this.propietario = propietario;
     }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setNacimiento(Date nacimiento) {
+        this.nacimiento = nacimiento;
+    }
+
+    public void setPropietario(Propietario propietario) {
+        this.propietario = propietario;
+    }
+    
     
     
 }
