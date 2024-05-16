@@ -1,6 +1,7 @@
 package com.mycompany.mascotasjdbc.persistence;
 
 import com.mycompany.mascotasjdbc.excepctions.MascotaException;
+import com.mycompany.mascotasjdbc.model.ContadorMascotasTO;
 import com.mycompany.mascotasjdbc.model.Mascota;
 import com.mycompany.mascotasjdbc.model.Propietario;
 import java.sql.Connection;
@@ -17,6 +18,24 @@ import java.util.Date;
  * @author mfontana
  */
 public class MascotasDAO {
+    
+    public ArrayList<ContadorMascotasTO> getQtyByPropietario() throws SQLException {
+        ArrayList<ContadorMascotasTO> contadores = new ArrayList<>();
+        Connection c = conectar();
+        String query = "select propietario.nombre as propietario, count(*) as cantidad from propietario "
+                + "join perro on perro.propietario = propietario.nombre group by propietario;";
+        Statement st = c.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        while (rs.next()) {
+            String prop = rs.getString("propietario");
+            int qty = rs.getInt("cantidad");
+            contadores.add(new ContadorMascotasTO(prop, qty));
+        }
+        rs.close();
+        st.close();
+        desconectar(c);
+        return contadores;
+    }
 
     public Mascota getMascotaByNombreFull(String nombre) throws SQLException, MascotaException {
         Connection c = conectar();
