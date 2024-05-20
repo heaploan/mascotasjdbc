@@ -23,6 +23,18 @@ public class Mascota {
         this.propietario = propietario;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public Date getNacimiento() {
+        return nacimiento;
+    }
+
+    public Propietario getPropietario() {
+        return propietario;
+    }
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }

@@ -69,7 +69,7 @@ public class MascotasDAO {
         ResultSet rs = st.executeQuery(query);
         while (rs.next()) {
             String nombre = rs.getString("nombre");
-            String poblacion = rs.getString("poblacion");
+            String poblacion = rs.getString("poblado");
             propietarios.add(new Propietario(nombre, poblacion));
         }
         rs.close();
@@ -91,10 +91,41 @@ public class MascotasDAO {
         desconectar(c);
     }
 
+    public void insertarMascota(Mascota m) throws SQLException, MascotaException {
+        if (existeMascota(m.getNombre())) {
+            throw new MascotaException("ERROR: Ya existe una mascota con ese nombre");
+        }
+        Connection c = conectar();
+        PreparedStatement ps = c.prepareStatement("insert into perro values (?,?,?,?);");
+        ps.setString(1, m.getNombre());
+
+        ps.setDate(2, new java.sql.Date(m.getNacimiento().getTime()));
+        ps.setString(3, m.getPropietario().getNombre());
+        ps.setString(4, m.getPropietario().getPoblacion());
+        ps.executeUpdate();
+        ps.close();
+        desconectar(c);
+    }
+
     private boolean existePropietario(String nombre) throws SQLException {
         Connection c = conectar();
         Statement st = c.createStatement();
         String query = "select * from propietario where nombre = '" + nombre + "';";
+        ResultSet rs = st.executeQuery(query);
+        boolean existe = false;
+        if (rs.next()) {
+            existe = true;
+        }
+        rs.close();
+        st.close();
+        desconectar(c);
+        return existe;
+    }
+
+    private boolean existeMascota(String nombre) throws SQLException {
+        Connection c = conectar();
+        Statement st = c.createStatement();
+        String query = "select * from perro where nombre = '" + nombre + "';";
         ResultSet rs = st.executeQuery(query);
         boolean existe = false;
         if (rs.next()) {
