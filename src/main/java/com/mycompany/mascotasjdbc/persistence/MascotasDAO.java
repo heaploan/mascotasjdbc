@@ -40,7 +40,7 @@ public class MascotasDAO {
     public Mascota getMascotaByNombreFull(String nombre) throws SQLException, MascotaException {
         Connection c = conectar();
         Mascota m = new Mascota();
-        String query = "select perro.nombre as apodo, fecha_nacimiento, propietario.nombre as prop, poblacion from "
+        String query = "select perro.nombre as apodo, fecha_nacimiento, propietario.nombre as propietario, poblacion from "
                 + "perro join propietario on propietario = propietario.nombre where apodo='" + nombre +"'";
         Statement st = c.createStatement();
         ResultSet rs = st.executeQuery(query);
@@ -131,8 +131,10 @@ public class MascotasDAO {
         Connection c = conectar();
         PreparedStatement ps = c.prepareStatement("insert into perro (nombre, fecha_nacimiento, propietario) values (?,?,?);");
         ps.setString(1, m.getNombre());
+
         ps.setDate(2, new java.sql.Date(m.getNacimiento().getTime()));
         ps.setString(3, m.getPropietario().getNombre());
+        ps.setString(4, m.getPropietario().getPoblacion());
         ps.executeUpdate();
         ps.close();
         desconectar(c);

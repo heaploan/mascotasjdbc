@@ -13,7 +13,12 @@ public class ContadorMascotasTO {
         this.propietario = propietario;
         this.cantidad = cantidad;
     }
-    
-    
-    
+
+    public String getPropietario() {
+        return propietario;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
 }

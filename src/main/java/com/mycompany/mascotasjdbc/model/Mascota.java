@@ -44,7 +44,9 @@ public class Mascota {
     public void setPropietario(Propietario propietario) {
         this.propietario = propietario;
     }
-    
-    
-    
+
+    @Override
+    public String toString() {
+        return  "Nombre: " + nombre + ", nacimiento: " + nacimiento + ", propietario: " + propietario;
+    }
 }
