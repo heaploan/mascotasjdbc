@@ -22,9 +22,16 @@ public class Menu {
                         op.agregarPropietario();
                         break;
                     case "addpet":
+                        op.agregarMascota();
                         break;
                     case "ownerlist":
                         op.mostrarPropietarios();
+                        break;
+                    case "deleteowner":
+                        op.eliminarPropietario();
+                        break;
+                    case "deletepet":
+                        op.eliminarMascota();
                         break;
                     case "exit":
                         System.out.println("Saliendo...");

@@ -9,6 +9,9 @@ public class Propietario {
     private String nombre;
     private String poblacion;
 
+    public Propietario() {
+    }
+
     public Propietario(String nombre, String poblacion) {
         this.nombre = nombre;
         this.poblacion = poblacion;

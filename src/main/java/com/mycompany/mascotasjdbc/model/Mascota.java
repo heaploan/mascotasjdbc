@@ -14,8 +14,6 @@ public class Mascota {
 
     public Mascota() {
     }
-    
-    
 
     public Mascota(String nombre, Date nacimiento, Propietario propietario) {
         this.nombre = nombre;
