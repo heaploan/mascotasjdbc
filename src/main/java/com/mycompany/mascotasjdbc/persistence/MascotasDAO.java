@@ -18,7 +18,37 @@ import java.util.Date;
  * @author mfontana
  */
 public class MascotasDAO {
-    
+
+    private boolean existePropietario(String nombre) throws SQLException {
+        Connection c = conectar();
+        Statement st = c.createStatement();
+        String query = "select * from propietario where nombre = '" + nombre + "';";
+        ResultSet rs = st.executeQuery(query);
+        boolean existe = false;
+        if (rs.next()) {
+            existe = true;
+        }
+        rs.close();
+        st.close();
+        desconectar(c);
+        return existe;
+    }
+
+    private boolean existeMascota(String nombre) throws SQLException {
+        Connection c = conectar();
+        Statement st = c.createStatement();
+        String query = "select * from perro where nombre = '" + nombre + "';";
+        ResultSet rs = st.executeQuery(query);
+        boolean existe = false;
+        if (rs.next()) {
+            existe = true;
+        }
+        rs.close();
+        st.close();
+        desconectar(c);
+        return existe;
+    }
+
     public ArrayList<ContadorMascotasTO> getQtyByPropietario() throws SQLException {
         ArrayList<ContadorMascotasTO> contadores = new ArrayList<>();
         Connection c = conectar();
@@ -37,7 +67,7 @@ public class MascotasDAO {
         return contadores;
     }
 
-    public Mascota getMascotaByNombreFull(String nombre) throws SQLException, MascotaException {
+    public Mascota getMascotaByNombre(String nombre) throws SQLException, MascotaException {
         Connection c = conectar();
         Mascota m = new Mascota();
         String query = "select perro.nombre as apodo, fecha_nacimiento, propietario.nombre as propietario, poblacion from "
@@ -131,43 +161,11 @@ public class MascotasDAO {
         Connection c = conectar();
         PreparedStatement ps = c.prepareStatement("insert into perro (nombre, fecha_nacimiento, propietario) values (?,?,?);");
         ps.setString(1, m.getNombre());
-
         ps.setDate(2, new java.sql.Date(m.getNacimiento().getTime()));
         ps.setString(3, m.getPropietario().getNombre());
-        ps.setString(4, m.getPropietario().getPoblacion());
         ps.executeUpdate();
         ps.close();
         desconectar(c);
-    }
-
-    private boolean existePropietario(String nombre) throws SQLException {
-        Connection c = conectar();
-        Statement st = c.createStatement();
-        String query = "select * from propietario where nombre = '" + nombre + "';";
-        ResultSet rs = st.executeQuery(query);
-        boolean existe = false;
-        if (rs.next()) {
-            existe = true;
-        }
-        rs.close();
-        st.close();
-        desconectar(c);
-        return existe;
-    }
-
-    private boolean existeMascota(String nombre) throws SQLException {
-        Connection c = conectar();
-        Statement st = c.createStatement();
-        String query = "select * from perro where nombre = '" + nombre + "';";
-        ResultSet rs = st.executeQuery(query);
-        boolean existe = false;
-        if (rs.next()) {
-            existe = true;
-        }
-        rs.close();
-        st.close();
-        desconectar(c);
-        return existe;
     }
 
     private Connection conectar() throws SQLException {
