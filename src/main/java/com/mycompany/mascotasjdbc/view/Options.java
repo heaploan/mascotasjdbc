@@ -9,6 +9,7 @@ import com.mycompany.mascotasjdbc.view.messages.Message;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Options {
     private String[] command;
@@ -29,6 +30,15 @@ public class Options {
         Propietario p = new Propietario(nombre,poblacion);
         md.insertarPropietario(p);
         System.out.println(msg.getMessage(Message.OWNER_SUCCESFULY_ADDED));
+    }
+
+    public void agregarMascota() throws CommandException, SQLException, MascotaException{
+        vl.valComLength(command, 4);
+        String nombre = command[1];
+        String fecha_nacimiento = command[2];
+        String propietario = command[3];
+
+
     }
 
     public void mostrarPropietarios() throws CommandException, SQLException {
