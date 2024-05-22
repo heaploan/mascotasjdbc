@@ -49,6 +49,7 @@ public class MascotasDAO {
         return existe;
     }
 
+
     public ArrayList<ContadorMascotasTO> getQtyByPropietario() throws SQLException {
         ArrayList<ContadorMascotasTO> contadores = new ArrayList<>();
         Connection c = conectar();
@@ -67,6 +68,7 @@ public class MascotasDAO {
         return contadores;
     }
 
+    // Obtiene toda la información por nombre de la mascota
     public Mascota getMascotaByNombre(String nombre) throws SQLException, MascotaException {
         Connection c = conectar();
         Mascota m = new Mascota();

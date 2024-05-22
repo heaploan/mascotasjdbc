@@ -2,6 +2,7 @@ package com.mycompany.mascotasjdbc.view;
 
 import com.mycompany.mascotasjdbc.excepctions.CommandException;
 import com.mycompany.mascotasjdbc.excepctions.MascotaException;
+import com.mycompany.mascotasjdbc.model.ContadorMascotasTO;
 import com.mycompany.mascotasjdbc.model.Mascota;
 import com.mycompany.mascotasjdbc.model.Propietario;
 import com.mycompany.mascotasjdbc.model.util.Validations;
@@ -64,6 +65,25 @@ public class Options {
         }
         if(p.isEmpty()){
             throw new MascotaException("No hay propietarios en la base de datos");
+        }
+    }
+
+    public void mostrarMascotas() throws CommandException, SQLException, MascotaException {
+        vl.valComLength(command, 1);
+        ArrayList<Mascota> m = md.allMascotas();
+        for(Mascota mascota : m){
+            System.out.println(mascota);
+        }
+        if(m.isEmpty()){
+            throw new MascotaException("No hay mascotas en la base de datos");
+        }
+    }
+
+    public void mascotasqty() throws CommandException, SQLException, MascotaException {
+        vl.valComLength(command, 1);
+        ArrayList<ContadorMascotasTO> c = md.getQtyByPropietario();
+        for(ContadorMascotasTO contador : c){
+            System.out.println(contador);
         }
     }
 

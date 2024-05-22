@@ -24,6 +24,9 @@ public class Menu {
                     case "addpet":
                         op.agregarMascota();
                         break;
+                    case "petqty":
+                        op.mascotasqty();
+                        break;
                     case "ownerlist":
                         op.mostrarPropietarios();
                         break;
