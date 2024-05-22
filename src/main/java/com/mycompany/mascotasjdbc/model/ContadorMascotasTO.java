@@ -17,14 +17,6 @@ public class ContadorMascotasTO {
         this.cantidad = cantidad;
     }
 
-    public String getPropietario() {
-        return propietario;
-    }
-
-    public int getCantidad() {
-        return cantidad;
-    }
-
     @Override
     public String toString() {
         return  "Propietario: " + propietario + ", cantidad: " + cantidad;
