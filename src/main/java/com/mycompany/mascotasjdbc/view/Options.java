@@ -1,14 +1,17 @@
 package com.mycompany.mascotasjdbc.view;
 
+// Local imports
 import com.mycompany.mascotasjdbc.excepctions.CommandException;
 import com.mycompany.mascotasjdbc.excepctions.MascotaException;
 import com.mycompany.mascotasjdbc.model.ContadorMascotasTO;
 import com.mycompany.mascotasjdbc.model.Mascota;
 import com.mycompany.mascotasjdbc.model.Propietario;
 import com.mycompany.mascotasjdbc.model.util.Validations;
-import com.mycompany.mascotasjdbc.persistence.MascotasDAO;
+import com.mycompany.mascotasjdbc.persistence.PerroDAO;
+import com.mycompany.mascotasjdbc.persistence.PropietarioDAO;
 import com.mycompany.mascotasjdbc.view.messages.Message;
 
+// Java imports
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,7 +22,8 @@ public class Options {
     private String[] command;
     private Validations vl = new Validations();
     private Message msg = new Message();
-    private MascotasDAO md = new MascotasDAO();
+    private PerroDAO perD = new PerroDAO();
+    private PropietarioDAO prD = new PropietarioDAO();
     private Propietario p = new Propietario();
 
     public void setCommand(String[] command){
@@ -33,7 +37,7 @@ public class Options {
         vl.valNameLength(nombre,20);
         vl.valNameLength(poblacion,20);
         Propietario p = new Propietario(nombre,poblacion);
-        md.insertarPropietario(p);
+        prD.insertarPropietario(p);
         System.out.println(msg.getMessage(Message.OWNER_SUCCESSFULLY_ADDED));
     }
 
@@ -52,14 +56,14 @@ public class Options {
         } catch (ParseException e){
             System.out.println("Error en la fecha, por favor usa dd/mm/yyyy");
         }
-        Mascota m = new Mascota(nombre,fecha,md.getPropietario(propietario));
-        md.insertarMascota(m);
+        Mascota m = new Mascota(nombre,fecha,prD.getPropietario(propietario));
+        perD.insertarMascota(m);
         System.out.println(msg.getMessage(Message.PET_SUCCESSFULLY_ADDED));
     }
 
     public void mostrarPropietarios() throws CommandException, SQLException, MascotaException {
         vl.valComLength(command, 1);
-        ArrayList<Propietario> p = md.allPropietarios();
+        ArrayList<Propietario> p = prD.allPropietarios();
         for(Propietario propietario : p){
             System.out.println(propietario);
         }
@@ -70,7 +74,7 @@ public class Options {
 
     public void mostrarMascotas() throws CommandException, SQLException, MascotaException {
         vl.valComLength(command, 1);
-        ArrayList<Mascota> m = md.allMascotas();
+        ArrayList<Mascota> m = perD.allMascotas();
         for(Mascota mascota : m){
             System.out.println(mascota);
         }
@@ -81,7 +85,7 @@ public class Options {
 
     public void mascotasqty() throws CommandException, SQLException, MascotaException {
         vl.valComLength(command, 1);
-        ArrayList<ContadorMascotasTO> c = md.getQtyByPropietario();
+        ArrayList<ContadorMascotasTO> c = prD.getQtyByPropietario();
         for(ContadorMascotasTO contador : c){
             System.out.println(contador);
         }
@@ -90,12 +94,12 @@ public class Options {
     public void eliminarPropietario() throws CommandException,SQLException{
         vl.valComLength(command,2);
         String nombre = command[1];
-        md.delPropietario(nombre);
+        prD.delPropietario(nombre);
     }
 
     public void eliminarMascota() throws CommandException,SQLException{
         vl.valComLength(command,2);
         String nombre = command[1];
-        md.delMascota(nombre);
+        perD.delMascota(nombre);
     }
 }

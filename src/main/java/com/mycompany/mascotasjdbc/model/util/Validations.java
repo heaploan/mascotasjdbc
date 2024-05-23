@@ -22,4 +22,12 @@ public class Validations {
             throw new CommandException(CommandException.WRONG_NAME_LENGTH);
         }
     }
+
+    public int valIntNum(String num) throws CommandException {
+        try{
+            return Integer.parseInt(num);
+        } catch (NumberFormatException e){
+                throw new CommandException(CommandException.WRONG_NUM_FORMAT);
+        }
+    }
 }
